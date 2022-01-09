@@ -1,4 +1,4 @@
-package com.xtrapp.dashpuzzle.dash_puzzle
+package com.xtrapp.dashpuzzle
 
 import io.flutter.embedding.android.FlutterActivity
 

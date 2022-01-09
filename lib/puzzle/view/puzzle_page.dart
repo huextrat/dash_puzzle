@@ -45,19 +45,21 @@ class PuzzleView extends StatelessWidget {
 
     return Scaffold(
       backgroundColor: theme.backgroundColor,
-      body: BlocProvider(
-        create: (context) => TimerBloc(
-          ticker: const Ticker(),
-        ),
+      body: SafeArea(
         child: BlocProvider(
-          create: (context) => PuzzleBloc()
-            ..add(
-              PuzzleInitialized(
-                shufflePuzzle: shufflePuzzle,
+          create: (context) => TimerBloc(
+            ticker: const Ticker(),
+          ),
+          child: BlocProvider(
+            create: (context) => PuzzleBloc()
+              ..add(
+                PuzzleInitialized(
+                  shufflePuzzle: shufflePuzzle,
+                ),
               ),
+            child: const _Puzzle(
+              key: Key('puzzle_view_puzzle'),
             ),
-          child: const _Puzzle(
-            key: Key('puzzle_view_puzzle'),
           ),
         ),
       ),
