@@ -72,95 +72,22 @@ class _Puzzle extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        return Stack(
-          children: [
-            SingleChildScrollView(
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: constraints.maxHeight,
-                ),
-                child: Column(
-                  children: const [
-                    _PuzzleHeader(
-                      key: Key('puzzle_header'),
-                    ),
-                    _PuzzleSections(
+        return Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(vertical: 40),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: const [
+                  Flexible(
+                    child: _PuzzleSections(
                       key: Key('puzzle_sections'),
                     ),
-                  ],
-                ),
+                  )
+                ],
               ),
-            ),
-          ],
+          ),
         );
       },
-    );
-  }
-}
-
-class _PuzzleHeader extends StatelessWidget {
-  const _PuzzleHeader({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 96,
-      child: ResponsiveLayoutBuilder(
-        small: (context, child) => const Center(
-          child: _PuzzleLogo(),
-        ),
-        medium: (context, child) => Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 50,
-          ),
-          child: Row(
-            children: const [
-              _PuzzleLogo(),
-            ],
-          ),
-        ),
-        large: (context, child) => Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 50,
-          ),
-          child: Row(
-            children: const [
-              _PuzzleLogo(),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _PuzzleLogo extends StatelessWidget {
-  const _PuzzleLogo({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return ResponsiveLayoutBuilder(
-      small: (context, child) => const SizedBox(
-        height: 24,
-        child: FlutterLogo(
-          style: FlutterLogoStyle.horizontal,
-          size: 86,
-        ),
-      ),
-      medium: (context, child) => const SizedBox(
-        height: 29,
-        child: FlutterLogo(
-          style: FlutterLogoStyle.horizontal,
-          size: 104,
-        ),
-      ),
-      large: (context, child) => const SizedBox(
-        height: 32,
-        child: FlutterLogo(
-          style: FlutterLogoStyle.horizontal,
-          size: 114,
-        ),
-      ),
     );
   }
 }
