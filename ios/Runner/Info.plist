@@ -15,10 +15,9 @@
 	<key>CFBundleLocalizations</key>
 	<array>
 		<string>en</string>
-		<string>es</string>
 	</array>
 	<key>CFBundleName</key>
-	<string>Slide Puzzle</string>
+	<string>Dash Puzzle</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
