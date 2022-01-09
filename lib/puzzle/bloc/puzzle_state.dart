@@ -2,6 +2,8 @@
 
 part of 'puzzle_bloc.dart';
 
+enum PuzzleLevel { simple, medium, hard }
+
 enum PuzzleStatus { incomplete, complete }
 
 enum TileMovementStatus { nothingTapped, cannotBeMoved, moved }
@@ -9,6 +11,8 @@ enum TileMovementStatus { nothingTapped, cannotBeMoved, moved }
 class PuzzleState extends Equatable {
   const PuzzleState({
     this.puzzle = const Puzzle(tiles: []),
+    this.puzzleLevel = PuzzleLevel.simple,
+    this.nextPuzzleLevel = PuzzleLevel.medium,
     this.puzzleStatus = PuzzleStatus.incomplete,
     this.tileMovementStatus = TileMovementStatus.nothingTapped,
     this.numberOfCorrectTiles = 0,
@@ -21,6 +25,12 @@ class PuzzleState extends Equatable {
 
   /// Status indicating the current state of the puzzle.
   final PuzzleStatus puzzleStatus;
+
+  /// Indicating the current level of the puzzle.
+  final PuzzleLevel puzzleLevel;
+
+  /// Indicating the next level of the puzzle.
+  final PuzzleLevel nextPuzzleLevel;
 
   /// Status indicating if a [Tile] was moved or why a [Tile] was not moved.
   final TileMovementStatus tileMovementStatus;
@@ -47,6 +57,8 @@ class PuzzleState extends Equatable {
   PuzzleState copyWith({
     Puzzle? puzzle,
     PuzzleStatus? puzzleStatus,
+    PuzzleLevel? puzzleLevel,
+    PuzzleLevel? nextPuzzleLevel,
     TileMovementStatus? tileMovementStatus,
     int? numberOfCorrectTiles,
     int? numberOfMoves,
@@ -55,6 +67,8 @@ class PuzzleState extends Equatable {
     return PuzzleState(
       puzzle: puzzle ?? this.puzzle,
       puzzleStatus: puzzleStatus ?? this.puzzleStatus,
+      puzzleLevel: puzzleLevel ?? this.puzzleLevel,
+      nextPuzzleLevel: nextPuzzleLevel ?? this.nextPuzzleLevel,
       tileMovementStatus: tileMovementStatus ?? this.tileMovementStatus,
       numberOfCorrectTiles: numberOfCorrectTiles ?? this.numberOfCorrectTiles,
       numberOfMoves: numberOfMoves ?? this.numberOfMoves,
@@ -66,6 +80,8 @@ class PuzzleState extends Equatable {
   List<Object?> get props => [
         puzzle,
         puzzleStatus,
+        puzzleLevel,
+        nextPuzzleLevel,
         tileMovementStatus,
         numberOfCorrectTiles,
         numberOfMoves,

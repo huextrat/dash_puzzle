@@ -30,15 +30,15 @@ class _AppState extends State<App> {
         context,
       );
       precacheImage(
-        Image.asset('assets/images/simple_dash_large.png').image,
+        Image.asset('assets/images/arrow_right.png').image,
         context,
       );
       precacheImage(
-        Image.asset('assets/images/simple_dash_medium.png').image,
+        Image.asset('images/dash_simple.png').image,
         context,
       );
       precacheImage(
-        Image.asset('assets/images/simple_dash_small.png').image,
+        Image.asset('images/dash_medium.png').image,
         context,
       );
     });
@@ -53,7 +53,7 @@ class _AppState extends State<App> {
           accentColor: const Color(0xFF13B9FF),
         ),
       ),
-      localizationsDelegates: const [
+      localizationsDelegates: [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
       ],

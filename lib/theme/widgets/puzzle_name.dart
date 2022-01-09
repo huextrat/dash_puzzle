@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:very_good_slide_puzzle/colors/colors.dart';
 import 'package:very_good_slide_puzzle/layout/layout.dart';
-import 'package:very_good_slide_puzzle/theme/theme.dart';
 import 'package:very_good_slide_puzzle/typography/typography.dart';
 
 /// {@template puzzle_name}
@@ -11,17 +9,38 @@ import 'package:very_good_slide_puzzle/typography/typography.dart';
 /// {@endtemplate}
 class PuzzleName extends StatelessWidget {
   /// {@macro puzzle_name}
-  const PuzzleName({Key? key}) : super(key: key);
+  const PuzzleName({Key? key, required this.title}) : super(key: key);
+
+  /// The title of the puzzle.
+  final String title;
 
   @override
   Widget build(BuildContext context) {
-    final name = context.select((ThemeBloc bloc) => bloc.state.theme).name;
-
     return ResponsiveLayoutBuilder(
-      small: (context, child) => const SizedBox(),
-      medium: (context, child) => const SizedBox(),
+      small: (context, child) => Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            title,
+            style: PuzzleTextStyle.headline5.copyWith(
+              color: PuzzleColors.grey1,
+            ),
+          ),
+        ],
+      ),
+      medium: (context, child) => Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            title,
+            style: PuzzleTextStyle.headline5.copyWith(
+              color: PuzzleColors.grey1,
+            ),
+          ),
+        ],
+      ),
       large: (context, child) => Text(
-        name,
+        title,
         style: PuzzleTextStyle.headline5.copyWith(
           color: PuzzleColors.grey1,
         ),

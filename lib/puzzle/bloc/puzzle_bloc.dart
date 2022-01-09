@@ -10,13 +10,13 @@ part 'puzzle_event.dart';
 part 'puzzle_state.dart';
 
 class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
-  PuzzleBloc(this._size, {this.random}) : super(const PuzzleState()) {
+  PuzzleBloc({this.random}) : super(const PuzzleState()) {
     on<PuzzleInitialized>(_onPuzzleInitialized);
     on<TileTapped>(_onTileTapped);
     on<PuzzleReset>(_onPuzzleReset);
+    on<PuzzleShuffle>(_onPuzzleShuffle);
+    on<PuzzleNext>(_onPuzzleNext);
   }
-
-  final int _size;
 
   final Random? random;
 
@@ -24,7 +24,7 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
     PuzzleInitialized event,
     Emitter<PuzzleState> emit,
   ) {
-    final puzzle = _generatePuzzle(_size, shuffle: event.shufflePuzzle);
+    final puzzle = _generatePuzzle(state.puzzleLevel.index + 3, shuffle: event.shufflePuzzle);
     emit(
       PuzzleState(
         puzzle: puzzle.sort(),
@@ -74,10 +74,38 @@ class PuzzleBloc extends Bloc<PuzzleEvent, PuzzleState> {
   }
 
   void _onPuzzleReset(PuzzleReset event, Emitter<PuzzleState> emit) {
-    final puzzle = _generatePuzzle(_size);
+    final puzzle = _generatePuzzle(state.puzzleLevel.index + 3);
     emit(
       PuzzleState(
         puzzle: puzzle.sort(),
+        numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
+      ),
+    );
+  }
+
+  void _onPuzzleShuffle(PuzzleShuffle event, Emitter<PuzzleState> emit) {
+    final puzzle = _generatePuzzle(state.puzzleLevel.index + 3);
+    emit(
+      PuzzleState(
+        puzzle: puzzle.sort(),
+        puzzleLevel: state.puzzleLevel,
+        nextPuzzleLevel: state.nextPuzzleLevel,
+        numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
+      ),
+    );
+  }
+
+  void _onPuzzleNext(PuzzleNext event, Emitter<PuzzleState> emit) {
+    final puzzle = _generatePuzzle(state.nextPuzzleLevel.index + 3);
+    emit(
+      PuzzleState(
+        puzzle: puzzle.sort(),
+        puzzleLevel: state.nextPuzzleLevel,
+        nextPuzzleLevel: state.nextPuzzleLevel == PuzzleLevel.simple
+            ? PuzzleLevel.medium
+            : state.nextPuzzleLevel == PuzzleLevel.medium
+            ? PuzzleLevel.hard
+            : PuzzleLevel.simple,
         numberOfCorrectTiles: puzzle.getNumberOfCorrectTiles(),
       ),
     );

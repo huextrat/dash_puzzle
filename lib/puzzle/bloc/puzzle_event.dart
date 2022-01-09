@@ -30,3 +30,11 @@ class TileTapped extends PuzzleEvent {
 class PuzzleReset extends PuzzleEvent {
   const PuzzleReset();
 }
+
+class PuzzleShuffle extends PuzzleEvent {
+  const PuzzleShuffle();
+}
+
+class PuzzleNext extends PuzzleEvent {
+  const PuzzleNext();
+}

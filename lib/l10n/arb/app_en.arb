@@ -12,6 +12,10 @@
     "@puzzleNumberOfTilesLeft": {
         "description": "Indicates how many puzzle tiles are not in their correct position"
     },
+    "puzzleNext": "Next",
+    "@puzzleShuffle": {
+        "description": "Shown on the button that go to the next puzzle"
+    },
     "puzzleShuffle": "Shuffle",
     "@puzzleShuffle": {
         "description": "Shown on the button that shuffle the puzzle"

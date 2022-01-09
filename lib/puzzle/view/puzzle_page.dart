@@ -50,7 +50,7 @@ class PuzzleView extends StatelessWidget {
           ticker: const Ticker(),
         ),
         child: BlocProvider(
-          create: (context) => PuzzleBloc(4)
+          create: (context) => PuzzleBloc()
             ..add(
               PuzzleInitialized(
                 shufflePuzzle: shufflePuzzle,
@@ -70,14 +70,10 @@ class _Puzzle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
-    final state = context.select((PuzzleBloc bloc) => bloc.state);
-
     return LayoutBuilder(
       builder: (context, constraints) {
         return Stack(
           children: [
-            theme.layoutDelegate.backgroundBuilder(state),
             SingleChildScrollView(
               child: ConstrainedBox(
                 constraints: BoxConstraints(
