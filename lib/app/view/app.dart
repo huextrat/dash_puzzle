@@ -9,8 +9,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:very_good_slide_puzzle/l10n/l10n.dart';
-import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
+import 'package:dash_puzzle/l10n/l10n.dart';
+import 'package:dash_puzzle/puzzle/puzzle.dart';
 
 class App extends StatefulWidget {
   const App({Key? key}) : super(key: key);
@@ -26,11 +26,15 @@ class _AppState extends State<App> {
 
     Future<void>.delayed(const Duration(milliseconds: 20), () {
       precacheImage(
-        Image.asset('assets/images/shuffle_icon.png').image,
+        Image.asset('images/reset.png').image,
         context,
       );
       precacheImage(
-        Image.asset('assets/images/arrow_right.png').image,
+        Image.asset('images/shuffle_icon.png').image,
+        context,
+      );
+      precacheImage(
+        Image.asset('images/arrow_right.png').image,
         context,
       );
       precacheImage(
@@ -38,7 +42,7 @@ class _AppState extends State<App> {
         context,
       );
       precacheImage(
-        Image.asset('images/dash_medium.png').image,
+        Image.asset('images/dash_hard.png').image,
         context,
       );
     });

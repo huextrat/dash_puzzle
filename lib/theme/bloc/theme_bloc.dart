@@ -1,8 +1,8 @@
 // ignore_for_file: public_member_api_docs
 
 import 'package:bloc/bloc.dart';
+import 'package:dash_puzzle/theme/theme.dart';
 import 'package:equatable/equatable.dart';
-import 'package:very_good_slide_puzzle/theme/theme.dart';
 
 part 'theme_event.dart';
 part 'theme_state.dart';

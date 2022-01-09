@@ -1,8 +1,8 @@
 import 'dart:ui';
 
-import 'package:very_good_slide_puzzle/colors/colors.dart';
-import 'package:very_good_slide_puzzle/layout/layout.dart';
-import 'package:very_good_slide_puzzle/theme/themes/themes.dart';
+import 'package:dash_puzzle/colors/colors.dart';
+import 'package:dash_puzzle/layout/layout.dart';
+import 'package:dash_puzzle/theme/themes/themes.dart';
 
 /// {@template simple_theme}
 /// The simple puzzle theme.

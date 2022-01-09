@@ -1,6 +1,6 @@
 {
     "@@locale": "en",
-    "puzzleChallengeTitle": "Puzzle Challenge",
+    "puzzleChallengeTitle": "Dash Puzzle",
     "@puzzleChallengeTitle": {
         "description": "Shown as the title of the puzzle"
     },
@@ -12,8 +12,16 @@
     "@puzzleNumberOfTilesLeft": {
         "description": "Indicates how many puzzle tiles are not in their correct position"
     },
+    "puzzleStart": "Start",
+    "@puzzleStart": {
+        "description": "Shown on the button that start the puzzle"
+    },
+    "puzzleReset": "Reset",
+    "@puzzleReset": {
+        "description": "Shown on the button that reset the puzzle"
+    },
     "puzzleNext": "Next",
-    "@puzzleShuffle": {
+    "@puzzleNext": {
         "description": "Shown on the button that go to the next puzzle"
     },
     "puzzleShuffle": "Shuffle",

@@ -1,13 +1,17 @@
+import 'dart:ui';
+
+import 'package:dash_puzzle/colors/colors.dart';
+import 'package:dash_puzzle/l10n/l10n.dart';
+import 'package:dash_puzzle/layout/layout.dart';
+import 'package:dash_puzzle/models/models.dart';
+import 'package:dash_puzzle/puzzle/puzzle.dart';
+import 'package:dash_puzzle/theme/theme.dart';
+import 'package:dash_puzzle/timer/bloc/timer_bloc.dart';
+import 'package:dash_puzzle/typography/text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 import 'package:intl/intl.dart';
-import 'package:very_good_slide_puzzle/colors/colors.dart';
-import 'package:very_good_slide_puzzle/l10n/l10n.dart';
-import 'package:very_good_slide_puzzle/layout/layout.dart';
-import 'package:very_good_slide_puzzle/models/models.dart';
-import 'package:very_good_slide_puzzle/puzzle/puzzle.dart';
-import 'package:very_good_slide_puzzle/theme/theme.dart';
 
 /// {@template simple_puzzle_layout_delegate}
 /// A delegate for computing the layout of the puzzle UI
@@ -40,10 +44,24 @@ class SimplePuzzleLayoutDelegate extends PuzzleLayoutDelegate {
         ),
         ResponsiveLayoutBuilder(
           small: (_, child) => state.puzzleStatus == PuzzleStatus.incomplete
-              ? const SimplePuzzleShuffleButton()
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    SimplePuzzleStartButton(),
+                    Gap(10),
+                    SimplePuzzleShuffleButton(),
+                  ],
+                )
               : const SimplePuzzleNextButton(),
           medium: (_, child) => state.puzzleStatus == PuzzleStatus.incomplete
-              ? const SimplePuzzleShuffleButton()
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    SimplePuzzleStartButton(),
+                    Gap(10),
+                    SimplePuzzleShuffleButton(),
+                  ],
+                )
               : const SimplePuzzleNextButton(),
           large: (_, __) => const SizedBox(),
         ),
@@ -147,13 +165,25 @@ class SimpleStartSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
+    final timer = context.select((TimerBloc bloc) => bloc.state);
+    final hours = timer.secondsElapsed ~/ 3600;
+    final minutes = (timer.secondsElapsed - hours * 3600) ~/ 60;
+    final seconds = timer.secondsElapsed - (hours * 3600) - (minutes * 60);
+    final hourLeft = hours.toString().length < 2
+        ? '0$hours'
+        : hours.toString();
+    final minuteLeft = minutes.toString().length < 2
+        ? '0$minutes'
+        : minutes.toString();
+    final secondsLeft = seconds.toString().length < 2
+        ? '0$seconds'
+        : seconds.toString();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const ResponsiveGap(
-          small: 20,
-          medium: 60,
-          large: 120,
+          large: 80,
         ),
         PuzzleName(
             title: toBeginningOfSentenceCase(state.puzzleLevel.name) ??
@@ -164,12 +194,43 @@ class SimpleStartSection extends StatelessWidget {
         ),
         const ResponsiveGap(
           small: 12,
-          medium: 16,
+          medium: 12,
           large: 32,
         ),
         NumberOfMovesAndTilesLeft(
           numberOfMoves: state.numberOfMoves,
           numberOfTilesLeft: state.numberOfTilesLeft,
+        ),
+        const ResponsiveGap(large: 10),
+        ResponsiveLayoutBuilder(
+            small: (_, __) => Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '$hourLeft:$minuteLeft:$secondsLeft',
+                  style: PuzzleTextStyle.bodyLargeBold.copyWith(
+                    color: theme.defaultColor,
+                  ),
+                )
+              ],
+            ),
+            medium: (_, __) => Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  '$hourLeft:$minuteLeft:$secondsLeft',
+                  style: PuzzleTextStyle.bodyLargeBold.copyWith(
+                    color: theme.defaultColor,
+                  ),
+                )
+              ],
+            ),
+            large: (_, __) => Text(
+              '$hourLeft:$minuteLeft:$secondsLeft',
+              style: PuzzleTextStyle.bodyLargeBold.copyWith(
+                color: theme.defaultColor,
+              ),
+            ),
         ),
         const ResponsiveGap(large: 10),
         ResponsiveLayoutBuilder(
@@ -206,7 +267,13 @@ class SimpleStartSection extends StatelessWidget {
           small: (_, __) => const SizedBox(),
           medium: (_, __) => const SizedBox(),
           large: (_, __) => state.puzzleStatus == PuzzleStatus.incomplete
-              ? const SimplePuzzleShuffleButton()
+              ? Row(
+                  children: const [
+                    SimplePuzzleStartButton(),
+                    Gap(10),
+                    SimplePuzzleShuffleButton(),
+                  ],
+                )
               : const SimplePuzzleNextButton(),
         ),
       ],
@@ -316,9 +383,11 @@ class SimplePuzzleTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = context.select((ThemeBloc bloc) => bloc.state.theme);
+    final timer = context.select((TimerBloc bloc) => bloc.state);
+    final state = context.select((PuzzleBloc bloc) => bloc.state);
 
     return GestureDetector(
-      onTap: state.puzzleStatus == PuzzleStatus.incomplete
+      onTap: timer.isRunning && state.puzzleStatus == PuzzleStatus.incomplete
           ? () => context.read<PuzzleBloc>().add(TileTapped(tile))
           : null,
       child: Container(
@@ -329,8 +398,58 @@ class SimplePuzzleTile extends StatelessWidget {
           ),
           borderRadius: BorderRadius.circular(8),
         ),
-        child:
-            Image.asset('images/${state.puzzleLevel.name}/${tile.value}.png'),
+        child: ClipRRect(
+          child: !timer.isRunning && state.puzzleLevel != PuzzleLevel.hard
+              ? ImageFiltered(
+                  imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
+                  child: Image.asset(
+                      'images/${state.puzzleLevel.name}/${tile.value}.png'),
+                )
+              : Image.asset(
+                  'images/${state.puzzleLevel.name}/${tile.value}.png'),
+        ),
+      ),
+    );
+  }
+}
+
+/// {@template puzzle_next_button}
+/// Displays the button to go to the next puzzle.
+/// {@endtemplate}
+@visibleForTesting
+class SimplePuzzleStartButton extends StatelessWidget {
+  /// {@macro puzzle_shuffle_button}
+  const SimplePuzzleStartButton({Key? key}) : super(key: key);
+
+  void onTap(TimerState timer, BuildContext context) {
+    if (timer.isRunning) {
+      context.read<TimerBloc>().add(const TimerReset());
+      context.read<PuzzleBloc>().add(const PuzzleReset());
+    } else {
+      context.read<TimerBloc>().add(const TimerStarted());
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final timer = context.select((TimerBloc bloc) => bloc.state);
+    return PuzzleButton(
+      textColor: PuzzleColors.primary0,
+      backgroundColor: PuzzleColors.primary6,
+      onPressed: () => onTap(timer, context),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Image.asset(
+            timer.isRunning ? 'images/reset.png' : 'images/arrow_right.png',
+            width: 20,
+            height: 20,
+          ),
+          const Gap(10),
+          Text(timer.isRunning
+              ? context.l10n.puzzleReset
+              : context.l10n.puzzleStart),
+        ],
       ),
     );
   }
@@ -346,23 +465,28 @@ class SimplePuzzleShuffleButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PuzzleButton(
-      textColor: PuzzleColors.primary0,
-      backgroundColor: PuzzleColors.primary6,
-      onPressed: () => context.read<PuzzleBloc>().add(const PuzzleShuffle()),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Image.asset(
-            'assets/images/shuffle_icon.png',
-            width: 20,
-            height: 20,
-          ),
-          const Gap(10),
-          Text(context.l10n.puzzleShuffle),
-        ],
-      ),
-    );
+    final timer = context.select((TimerBloc bloc) => bloc.state);
+    if (timer.isRunning) {
+      return PuzzleButton(
+        textColor: PuzzleColors.primary0,
+        backgroundColor: PuzzleColors.primary6,
+        onPressed: () => context.read<PuzzleBloc>().add(const PuzzleShuffle()),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset(
+              'images/shuffle_icon.png',
+              width: 20,
+              height: 20,
+            ),
+            const Gap(10),
+            Text(context.l10n.puzzleShuffle),
+          ],
+        ),
+      );
+    } else {
+      return Container();
+    }
   }
 }
 
@@ -374,22 +498,33 @@ class SimplePuzzleNextButton extends StatelessWidget {
   /// {@macro puzzle_shuffle_button}
   const SimplePuzzleNextButton({Key? key}) : super(key: key);
 
+  void onTap(PuzzleState puzzleState, TimerState timerState, BuildContext context) {
+    if (puzzleState.puzzleLevel == PuzzleLevel.hard) {
+      context.read<TimerBloc>().add(const TimerReset());
+      context.read<PuzzleBloc>().add(const PuzzleReset());
+    } else {
+      context.read<PuzzleBloc>().add(const PuzzleNext());
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final state = context.select((PuzzleBloc bloc) => bloc.state);
+    final timer = context.select((TimerBloc bloc) => bloc.state);
     return PuzzleButton(
       textColor: PuzzleColors.primary0,
       backgroundColor: PuzzleColors.primary6,
-      onPressed: () => context.read<PuzzleBloc>().add(const PuzzleNext()),
+      onPressed: () => onTap(state, timer, context),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            'assets/images/arrow_right.png',
+            state.puzzleLevel == PuzzleLevel.hard ? 'images/reset.png' : 'images/arrow_right.png',
             width: 20,
             height: 20,
           ),
           const Gap(10),
-          Text(context.l10n.puzzleNext),
+          Text(state.puzzleLevel == PuzzleLevel.hard ? context.l10n.puzzleReset : context.l10n.puzzleNext),
         ],
       ),
     );

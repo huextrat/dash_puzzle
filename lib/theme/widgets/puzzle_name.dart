@@ -1,7 +1,7 @@
+import 'package:dash_puzzle/colors/colors.dart';
+import 'package:dash_puzzle/layout/layout.dart';
+import 'package:dash_puzzle/typography/typography.dart';
 import 'package:flutter/material.dart';
-import 'package:very_good_slide_puzzle/colors/colors.dart';
-import 'package:very_good_slide_puzzle/layout/layout.dart';
-import 'package:very_good_slide_puzzle/typography/typography.dart';
 
 /// {@template puzzle_name}
 /// Displays the name of the current puzzle theme.

@@ -1,9 +1,9 @@
+import 'package:dash_puzzle/layout/layout.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:very_good_slide_puzzle/layout/layout.dart';
 
 /// {@template responsive_gap}
-/// A wrapper around [Gap] that renders a [small], [medium]
+/// A wrapper around [Gap] that renders a [small], [hard]
 /// or a [large] gap depending on the screen size.
 /// {@endtemplate}
 class ResponsiveGap extends StatelessWidget {
@@ -18,7 +18,7 @@ class ResponsiveGap extends StatelessWidget {
   /// A gap rendered on a small layout.
   final double small;
 
-  /// A gap rendered on a medium layout.
+  /// A gap rendered on a hard layout.
   final double medium;
 
   /// A gap rendered on a large layout.

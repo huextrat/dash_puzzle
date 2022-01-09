@@ -1,5 +1,5 @@
+import 'package:dash_puzzle/layout/layout.dart';
 import 'package:flutter/widgets.dart';
-import 'package:very_good_slide_puzzle/layout/layout.dart';
 
 /// Represents the layout size passed to [ResponsiveLayoutBuilder.child].
 enum ResponsiveLayoutSize {
@@ -13,7 +13,7 @@ enum ResponsiveLayoutSize {
   large
 }
 
-/// Signature for the individual builders (`small`, `medium`, `large`).
+/// Signature for the individual builders (`small`, `hard`, `large`).
 typedef ResponsiveLayoutWidgetBuilder = Widget Function(BuildContext, Widget?);
 
 /// {@template responsive_layout_builder}
@@ -33,14 +33,14 @@ class ResponsiveLayoutBuilder extends StatelessWidget {
   /// [ResponsiveLayoutWidgetBuilder] for small layout.
   final ResponsiveLayoutWidgetBuilder small;
 
-  /// [ResponsiveLayoutWidgetBuilder] for medium layout.
+  /// [ResponsiveLayoutWidgetBuilder] for hard layout.
   final ResponsiveLayoutWidgetBuilder medium;
 
   /// [ResponsiveLayoutWidgetBuilder] for large layout.
   final ResponsiveLayoutWidgetBuilder large;
 
   /// Optional child widget builder based on the current layout size
-  /// which will be passed to the `small`, `medium` and `large` builders
+  /// which will be passed to the `small`, `hard` and `large` builders
   /// as a way to share/optimize shared layout.
   final Widget Function(ResponsiveLayoutSize currentSize)? child;
 

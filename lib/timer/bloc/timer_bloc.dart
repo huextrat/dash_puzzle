@@ -3,8 +3,8 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:dash_puzzle/models/models.dart';
 import 'package:equatable/equatable.dart';
-import 'package:very_good_slide_puzzle/models/models.dart';
 
 part 'timer_event.dart';
 part 'timer_state.dart';
@@ -48,6 +48,6 @@ class TimerBloc extends Bloc<TimerEvent, TimerState> {
 
   void _onTimerReset(TimerReset event, Emitter<TimerState> emit) {
     _tickerSubscription?.cancel();
-    emit(state.copyWith(secondsElapsed: 0));
+    emit(state.copyWith(secondsElapsed: 0, isRunning: false));
   }
 }
