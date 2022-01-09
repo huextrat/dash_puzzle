@@ -26,23 +26,23 @@ class _AppState extends State<App> {
 
     Future<void>.delayed(const Duration(milliseconds: 20), () {
       precacheImage(
-        Image.asset('images/reset.png').image,
+        Image.asset('assets/images/reset.png').image,
         context,
       );
       precacheImage(
-        Image.asset('images/shuffle_icon.png').image,
+        Image.asset('assets/images/shuffle_icon.png').image,
         context,
       );
       precacheImage(
-        Image.asset('images/arrow_right.png').image,
+        Image.asset('assets/images/arrow_right.png').image,
         context,
       );
       precacheImage(
-        Image.asset('images/dash_simple.png').image,
+        Image.asset('assets/images/dash_simple.png').image,
         context,
       );
       precacheImage(
-        Image.asset('images/dash_hard.png').image,
+        Image.asset('assets/images/dash_hard.png').image,
         context,
       );
     });

@@ -239,7 +239,7 @@ class SimpleStartSection extends StatelessWidget {
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxHeight: 200),
               child: Image.asset(
-                'images/dash_${state.puzzleLevel.name}.png',
+                'assets/images/dash_${state.puzzleLevel.name}.png',
               ),
             ),
           ),
@@ -248,7 +248,7 @@ class SimpleStartSection extends StatelessWidget {
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxHeight: 200),
               child: Image.asset(
-                'images/dash_${state.puzzleLevel.name}.png',
+                'assets/images/dash_${state.puzzleLevel.name}.png',
               ),
             ),
           ),
@@ -257,7 +257,7 @@ class SimpleStartSection extends StatelessWidget {
             child: ConstrainedBox(
               constraints: const BoxConstraints(maxHeight: 300),
               child: Image.asset(
-                'images/dash_${state.puzzleLevel.name}.png',
+                'assets/images/dash_${state.puzzleLevel.name}.png',
               ),
             ),
           ),
@@ -403,10 +403,10 @@ class SimplePuzzleTile extends StatelessWidget {
               ? ImageFiltered(
                   imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
                   child: Image.asset(
-                      'images/${state.puzzleLevel.name}/${tile.value}.png'),
+                      'assets/images/${state.puzzleLevel.name}/${tile.value}.png'),
                 )
               : Image.asset(
-                  'images/${state.puzzleLevel.name}/${tile.value}.png'),
+                  'assets/images/${state.puzzleLevel.name}/${tile.value}.png'),
         ),
       ),
     );
@@ -441,7 +441,7 @@ class SimplePuzzleStartButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            timer.isRunning ? 'images/reset.png' : 'images/arrow_right.png',
+            timer.isRunning ? 'assets/images/reset.png' : 'assets/images/arrow_right.png',
             width: 20,
             height: 20,
           ),
@@ -475,7 +475,7 @@ class SimplePuzzleShuffleButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'images/shuffle_icon.png',
+              'assets/images/shuffle_icon.png',
               width: 20,
               height: 20,
             ),
@@ -519,7 +519,7 @@ class SimplePuzzleNextButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            state.puzzleLevel == PuzzleLevel.hard ? 'images/reset.png' : 'images/arrow_right.png',
+            state.puzzleLevel == PuzzleLevel.hard ? 'assets/images/reset.png' : 'assets/images/arrow_right.png',
             width: 20,
             height: 20,
           ),
