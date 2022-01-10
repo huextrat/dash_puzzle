@@ -269,9 +269,13 @@ class SimpleStartSection extends StatelessWidget {
           large: (_, __) => state.puzzleStatus == PuzzleStatus.incomplete
               ? Row(
                   children: const [
-                    SimplePuzzleStartButton(),
+                    Flexible(
+                      child: SimplePuzzleStartButton(),
+                    ),
                     Gap(10),
-                    SimplePuzzleShuffleButton(),
+                    Flexible(
+                      child: SimplePuzzleShuffleButton(),
+                    )
                   ],
                 )
               : const SimplePuzzleNextButton(),
